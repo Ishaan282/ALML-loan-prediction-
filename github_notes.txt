@@ -1,0 +1,7 @@
+git init
+git status
+git commit -m "Initial commit"
+git log 
+git remote add origin "repo link"
+git push -u origin master
+git pull origin master
