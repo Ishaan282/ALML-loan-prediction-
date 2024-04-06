@@ -1,7 +1,12 @@
 git init
 git status
+git add .
 git commit -m "Initial commit"
-git log 
+git push origin master
+
+
+
+    git log 
 git remote add origin "repo link"
-git push -u origin master
+
 git pull origin master
