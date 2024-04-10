@@ -36,9 +36,9 @@ preprocessor = ColumnTransformer(
 
 # Define your model
 model = Pipeline(steps=[('preprocessor', preprocessor),
-                        ('classifier', RandomForestClassifier())])
+                        ('classifier', RandomForestClassifier(random_state=42))])
 
-# Drop the 'Property_Area' and 'Loan_ID' columns from df
+# Drop the 'Property_Area' and 'Loan_ID' whole columns from df
 df = df.drop(['Property_Area', 'Loan_ID'], axis=1)
 
 # Split your data into features (X) and target (y)
@@ -70,3 +70,8 @@ loaded_model = joblib.load('trained_model.joblib')
 prediction = loaded_model.predict(user_input)
 
 print("Predicted Loan Status: ", prediction)
+
+# Calculate the accuracy of the model
+accuracy = model.score(X_test, y_test)
+
+print("Model Accuracy: ", accuracy)
