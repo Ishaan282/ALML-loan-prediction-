@@ -10,7 +10,9 @@ from colorama import Fore, Style
 
 data = pd.read_csv('loan_data.csv')
 
-data.head(5)
+
+# Check the balance of the dataset
+print(data['Loan_Status'].value_counts())
 
 # checking null values
 print(Fore.RED + Style.BRIGHT + "checking null values :- "); print(Style.RESET_ALL)
@@ -92,7 +94,6 @@ support_vector_model.fit(x_train, y_train)
 decision_tree_model.fit(x_train, y_train)
 
 from sklearn.metrics import roc_auc_score, roc_curve
-import matplotlib.pyplot as plt
 
 # Calculate the probabilities of the positive class
 y_prob_logistic = logistic_model.predict_proba(x_test)[:, 1]
@@ -136,3 +137,34 @@ elif (b > a and b > c):
 else:
     print(Fore.GREEN + Style.BRIGHT + "Decision Tree has the highest accuracy")
     best_model = decision_tree_model
+
+
+    # Python
+dummy_input = pd.DataFrame({
+    'Gender': ['Male'], 
+    'Married': ['Yes'], 
+    'Dependents': [1], 
+    'Education': ['Graduate'], 
+    'Self_Employed': ['No'], 
+    'ApplicantIncome': [5000], 
+    'CoapplicantIncome': [0], 
+    'LoanAmount': [200], 
+    'Loan_Amount_Term': [360], 
+    'Credit_History': [1], 
+    'Property_Area': ['Urban']
+})
+
+# Encode and scale the dummy input
+for col in categorical_cols:
+    if col != 'Loan_Status':  # Exclude the target variable
+        dummy_input[col] = label_encoders[col].transform(dummy_input[col])  # Transform the dummy input
+
+dummy_input = scaler.transform(dummy_input)  # Scale the dummy input
+
+# Use the best model to predict
+prediction = best_model.predict(dummy_input)
+
+# Decode the prediction
+prediction = label_encoders['Loan_Status'].inverse_transform(prediction)
+
+print("The prediction is:", prediction[0])
